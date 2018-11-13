@@ -1,0 +1,64 @@
+package com.lourdinas.simulandochamada;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    SharedPreferences meusDados;
+    public static final String mypreference = "call";
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        meusDados = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        Button btnLogin = (Button) findViewById(R.id.btn_login);
+        final EditText meusEmail = (EditText)findViewById(R.id.edt_email);
+        final EditText minhaSenha = (EditText) findViewById(R.id.edt_senha);
+        TextView registro = (TextView) findViewById(R.id.tnt_registro);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (meusDados.contains("email") && meusDados.contains("senha")){
+
+                    if(meusEmail.equals(meusDados.getString("email",""))
+                           && minhaSenha.equals(meusDados.getString("senha","")) ){
+                        Intent intent = new Intent(MainActivity.this,
+                                TelefoneActivity.class);
+                        startActivity(intent);
+                        finish();
+
+
+                    } else{
+
+                        Toast.makeText(getApplicationContext(),
+                                "Email ou senha invalida!",Toast.LENGTH_LONG).show();
+                    }
+
+                } else{
+
+                    Toast.makeText(getApplicationContext(),
+                            "Não existem cadastro!",Toast.LENGTH_LONG).show();
+                }
+
+                Intent intent = new Intent(MainActivity.this, TelefoneActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+}
