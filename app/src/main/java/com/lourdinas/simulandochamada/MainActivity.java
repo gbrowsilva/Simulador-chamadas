@@ -25,40 +25,42 @@ public class MainActivity extends AppCompatActivity {
         meusDados = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
         Button btnLogin = (Button) findViewById(R.id.btn_login);
-        final EditText meusEmail = (EditText)findViewById(R.id.edt_email);
-        final EditText minhaSenha = (EditText) findViewById(R.id.edt_senha);
+        final EditText edtEmail = (EditText)findViewById(R.id.edt_email);
+        final EditText edtSenha = (EditText) findViewById(R.id.edt_senha);
         TextView registro = (TextView) findViewById(R.id.tnt_registro);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (meusDados.contains("email") && meusDados.contains("senha")){
+                String meusEmail = edtEmail.getText().toString();
+                String minhaSenha = edtSenha.getText().toString();
 
-                    if(meusEmail.equals(meusDados.getString("email",""))
-                           && minhaSenha.equals(meusDados.getString("senha","")) ){
+                if (meusDados.contains("email") && meusDados.contains("senha")) {
+
+                    if (meusEmail.equals(meusDados.getString("email", ""))
+                            && minhaSenha.equals(meusDados.getString("senha", ""))) {
                         Intent intent = new Intent(MainActivity.this,
                                 TelefoneActivity.class);
                         startActivity(intent);
                         finish();
-
-
-                    } else{
-
+                    } else {
                         Toast.makeText(getApplicationContext(),
-                                "Email ou senha invalida!",Toast.LENGTH_LONG).show();
+                                "Email ou senha invalida!", Toast.LENGTH_LONG).show();
                     }
-
-                } else{
-
+                } else {
                     Toast.makeText(getApplicationContext(),
-                            "Não existem cadastro!",Toast.LENGTH_LONG).show();
+                            "Não existem cadastro!", Toast.LENGTH_LONG).show();
                 }
-
-                Intent intent = new Intent(MainActivity.this, TelefoneActivity.class);
-                startActivity(intent);
             }
         });
-
+        registro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, cadastroActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }
